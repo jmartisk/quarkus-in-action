@@ -1,4 +1,4 @@
-package orc.acme.users.model;
+package org.acme.users.model;
 
 import java.time.LocalDate;
 

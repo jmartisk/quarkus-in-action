@@ -1,4 +1,4 @@
-package orc.acme.users;
+package org.acme.users;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;

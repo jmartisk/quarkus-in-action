@@ -1,7 +1,7 @@
-package orc.acme.users;
+package org.acme.users;
 
-import orc.acme.users.model.Car;
-import orc.acme.users.model.Reservation;
+import org.acme.users.model.Car;
+import org.acme.users.model.Reservation;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.RestQuery;

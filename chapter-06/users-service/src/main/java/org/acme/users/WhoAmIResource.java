@@ -1,4 +1,4 @@
-package orc.acme.users;
+package org.acme.users;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
