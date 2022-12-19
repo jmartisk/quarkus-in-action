@@ -5,7 +5,6 @@ import io.quarkus.qute.TemplateInstance;
 import io.smallrye.common.annotation.Blocking;
 import org.acme.users.model.Car;
 import org.acme.users.model.Reservation;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestQuery;
@@ -16,16 +15,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.time.LocalDate;
 import java.util.Collection;
 
 @Path("/")
 @Blocking
 public class ReservationsResource {
-
 
     @CheckedTemplate
     public static class Templates {
@@ -40,14 +37,14 @@ public class ReservationsResource {
     }
 
     @Inject
-    JsonWebToken jsonWebToken;
+    SecurityContext securityContext;
 
     @RestClient
     ReservationsClient client;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get(@RestQuery LocalDate startDate,
+    public TemplateInstance index(@RestQuery LocalDate startDate,
                                 @RestQuery LocalDate endDate) {
         if(startDate == null) {
             startDate = LocalDate.now().plusDays(1L);
@@ -55,7 +52,7 @@ public class ReservationsResource {
         if(endDate == null) {
             endDate = LocalDate.now().plusDays(7);
         }
-        return Templates.index(startDate, endDate, jsonWebToken.getName());
+        return Templates.index(startDate, endDate, securityContext.getUserPrincipal().getName());
     }
 
     @GET
@@ -71,19 +68,12 @@ public class ReservationsResource {
     @Path("/available")
     public TemplateInstance getAvailableCars(@RestQuery LocalDate startDate,
                                              @RestQuery LocalDate endDate) {
-        if(startDate == null) {
-            startDate = LocalDate.now().plusDays(1L);
-        }
-        if(endDate == null) {
-            endDate = LocalDate.now().plusDays(7);
-        }
         Collection<Car> availableCars = client.availability(startDate, endDate);
         return Templates.availablecars(availableCars, startDate, endDate);
     }
 
     @POST
     @Produces(MediaType.TEXT_HTML)
-    @Blocking
     @Path("/reserve")
     public RestResponse<TemplateInstance> create(@RestForm LocalDate startDate,
                                    @RestForm LocalDate endDate,

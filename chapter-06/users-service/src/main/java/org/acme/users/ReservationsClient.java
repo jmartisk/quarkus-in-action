@@ -2,9 +2,9 @@ package org.acme.users;
 
 import org.acme.users.model.Car;
 import org.acme.users.model.Reservation;
-import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.reactive.RestQuery;
+import io.quarkus.oidc.token.propagation.AccessToken;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,8 +13,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 @RegisterRestClient(baseUri = "http://localhost:8081")
-@RegisterClientHeaders(IdentityPropagationHeadersFactory.class)
 @Path("reservation")
+@AccessToken
 public interface ReservationsClient {
 
     @GET

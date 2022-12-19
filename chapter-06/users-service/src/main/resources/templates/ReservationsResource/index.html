@@ -1,10 +1,16 @@
+{@java.lang.String name}
+{@java.time.LocalDate startDate}
+{@java.time.LocalDate endDate}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Reservations</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <link rel="stylesheet"
+          href="https://cdn.simplecss.org/simple.min.css">
+    <script src="https://unpkg.com/htmx.org@1.7.0">
+    </script>
 </head>
 
 <body>
@@ -32,15 +38,12 @@
 <form hx-get="/available" hx-target="#availability">
     <p>Start date:<input id="startDateInput" type="text" name="startDate" value="{startDate}"/></p>
     <p>End date:<input id="endDateInput" type="text" name="endDate" value="{endDate}"/></p>
-    <input type="submit" value="Update list" onclick="updateAvailabilityURL()"/>
+    <input type="submit" value="Update list"/>
 </form>
 <div id="availability" hx-vars="startDate:getStartDate(),endDate:getEndDate()"
      hx-get="/available" hx-trigger="load, update-available-cars-list from:body">
     <!-- This will be replaced by the result of calling /available -->
 </div>
-
-
-
 
 </body>
 </html>
