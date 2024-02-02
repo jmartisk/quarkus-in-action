@@ -5,7 +5,8 @@ set -euo pipefail
 deployManualManifestApply() {
   cd $1
   echo "Deploying $1 with manual manifest oc apply..."
-  ./mvnw clean package -DskipTests -Dquarkus.container-image.group=quarkus-in-action
+  ./mvnw clean package -DskipTests
+  quarkus image push --also-build
   oc apply -f target/kubernetes/openshift.yml
   echo "Deployment of $1 is complete"
   cd ..
